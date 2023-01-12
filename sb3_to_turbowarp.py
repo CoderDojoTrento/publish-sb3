@@ -5,7 +5,20 @@ from xml.sax.saxutils import escape
 import argparse
 
 
-
+translations = {
+    'en': {
+        'view-animation' : 'Visualize animation',
+        'view-code' : 'Visualize code',
+        'download-file' : 'Download file',
+        'title' : 'Scratch Projects',
+    },
+    'it': {
+        'view-animation' : 'Vedi animazione',
+        'view-code' : 'Vedi codice',
+        'download-file' : 'Scarica file',
+        'title' : 'Progetti Scratch',
+    },
+}
 
 def walk_tree(args, ret, top, level):   
     
@@ -67,10 +80,25 @@ def walk_tree(args, ret, top, level):
             ret.append(f'''
                         <tr>
                                 
-                                <td class="file"><div class="file-img"></div>{escape(name)}</td>
-                                <td class="file"><a href="https://turbowarp.org/embed.html?project_url={prj_url}">Vedi animazione</a></td>
-                                <td class="file"><a href="https://turbowarp.org/editor?project_url={prj_url}">Vedi codice</a></td>
-                                <td class="file"><a href="{prj_url}">Scarica file</a></td>                
+                                <td class="file">
+                                    <div class="file-img"></div>
+                                    {escape(name)}
+                                </td>
+                                
+                                <td class="file">
+                                    <a href="https://turbowarp.org/embed.html?project_url={prj_url}">
+                                        {escape(translations[args.locale]['view-animation'])}
+                                    </a>
+                                </td>
+                                <td class="file">
+                                    <a href="https://turbowarp.org/editor?project_url={prj_url}">
+                                    {escape(translations[args.locale]['view-code'])}</a>
+                                </td>
+                                <td class="file">
+                                    <a href="{prj_url}">
+                                        {escape(translations[args.locale]['download-file'])}
+                                    </a>
+                                </td>
                         </tr>''')
         ret.append('''
                             </table>
@@ -95,13 +123,13 @@ def make_html_page(args):
     <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
     <html>
         <head>
-            <title>{args.title}</title>            
+            <title>{escape(args.title)}</title>
             <link rel="stylesheet" href="js-lists.css">
             <link rel="stylesheet" href="sb3-to-turbowarp.css">            
             <script src="js-lists.js"></script>            
         </head>
         <body>
-        <h1>{args.title}</h1>\n'''
+        <h1>{escape(args.title)}</h1>\n'''
     
     return '\n'.join([preamble,
                       make_html_dirs(args),
@@ -130,12 +158,23 @@ if __name__ == '__main__':
                         dest='server_url',
                         default='')  
 
+    # Overrides default title regardless of the locale
     parser.add_argument('-t', '--title', 
                         dest='title',
-                        default='Scratch Projects')         
+                        default='')
+    
+    # Forces a locale (currently browser locale is not considered)
+    parser.add_argument('-l', '--locale',
+                        dest='locale',
+                        default='en')
+    
     
     args = parser.parse_args()    
     
+    
+    if not args.title:
+        args.title = translations[args.locale]['title']
+        
         
     res = make_html_page(args)
     
