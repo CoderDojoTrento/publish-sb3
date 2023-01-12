@@ -20,7 +20,7 @@ https://coderdojotrento.github.io/sb3-to-turbowarp/demo-it
 Reads all projects in root folder `demo` and creates `demo/index.html`, supposing the file will be hosted on `https://coderdojotrento.github.io/sb3-to-turbowarp/demo`
 
 ```bash
-python3 sb3_to_turbowarp.py -r demo  -s https://coderdojotrento.github.io/sb3-to-turbowarp/demo 
+python3 sb3_to_turbowarp.py -r demo  -s https://coderdojotrento.github.io/sb3-to-turbowarp/demo/ 
 ```
 
 
