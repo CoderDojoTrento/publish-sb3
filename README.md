@@ -9,8 +9,8 @@ This tool can be useful if you don't want students to create accounts on Scratch
 
 
 ## Demo (English):
-https://coderdojotrento.github.io/sb3-to-turbowarp/demo-it/
-https://coderdojotrento.github.io/sb3-to-turbowarp/demo
+
+https://coderdojotrento.github.io/sb3-to-turbowarp/demo-en
 
 
 ## Demo (Italian):
