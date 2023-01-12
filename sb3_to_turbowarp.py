@@ -3,6 +3,7 @@ import sys
 import os, stat, types
 from xml.sax.saxutils import escape 
 import argparse
+from bs4 import BeautifulSoup
 
 
 translations = {
@@ -124,6 +125,7 @@ def make_html_page(args):
     <html>
         <head>
             <title>{escape(args.title)}</title>
+            <meta charset="utf-8">
             <link rel="stylesheet" href="js-lists.css">
             <link rel="stylesheet" href="sb3-to-turbowarp.css">            
             <script src="js-lists.js"></script>            
@@ -182,9 +184,6 @@ if __name__ == '__main__':
 
         if not args.debug:
             print('packing...')
-
-            from bs4 import BeautifulSoup
-
 
             soup = BeautifulSoup(res, "lxml")    
             links = list(soup.select("link"))
