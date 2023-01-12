@@ -1,0 +1,798 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html>
+ <head>
+  <title>
+   Scratch Projects
+  </title>
+  <style>
+   *, *:before, *:after {box-sizing: border-box;}
+ul, ol {margin: 0; padding: 0;}
+li {list-style: none; line-height: 1.6rem;}
+
+/* List styling */
+.jslists{
+	font-size: 1.3rem;
+	font-family: Arial, Helvetica, sans-serif;
+}
+.jslist-ul, .jslist-ol, .jslist-li {margin-left: 12px;}		/* Unordered lists */
+.jsl-collapsed {display: none;}
+.jsl-list-closed {
+	float: left;
+	clear: both;
+	margin: 2px 4px 2px 0px;
+	width: 18px;
+	height: 18px;
+	cursor: pointer;
+	background-image: url('data:image/svg+xml;utf8,<svg aria-hidden="true" data-prefix="far" data-icon="plus-square" class="svg-inline--fa fa-plus-square fa-w-14" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path fill="currentColor" d="M352 240v32c0 6.6-5.4 12-12 12h-88v88c0 6.6-5.4 12-12 12h-32c-6.6 0-12-5.4-12-12v-88h-88c-6.6 0-12-5.4-12-12v-32c0-6.6 5.4-12 12-12h88v-88c0-6.6 5.4-12 12-12h32c6.6 0 12 5.4 12 12v88h88c6.6 0 12 5.4 12 12zm96-160v352c0 26.5-21.5 48-48 48H48c-26.5 0-48-21.5-48-48V80c0-26.5 21.5-48 48-48h352c26.5 0 48 21.5 48 48zm-48 346V86c0-3.3-2.7-6-6-6H54c-3.3 0-6 2.7-6 6v340c0 3.3 2.7 6 6 6h340c3.3 0 6-2.7 6-6z"></path></svg>');
+    background-repeat: no-repeat;
+    background-position: center; 
+}
+.jsl-open {display: block;}
+.jsl-list-open {background-image: url('data:image/svg+xml;utf8,<svg aria-hidden="true" data-prefix="far" data-icon="minus-square" class="svg-inline--fa fa-minus-square fa-w-14" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path fill="currentColor" d="M108 284c-6.6 0-12-5.4-12-12v-32c0-6.6 5.4-12 12-12h232c6.6 0 12 5.4 12 12v32c0 6.6-5.4 12-12 12H108zM448 80v352c0 26.5-21.5 48-48 48H48c-26.5 0-48-21.5-48-48V80c0-26.5 21.5-48 48-48h352c26.5 0 48 21.5 48 48zm-48 346V86c0-3.3-2.7-6-6-6H54c-3.3 0-6 2.7-6 6v340c0 3.3 2.7 6 6 6h340c3.3 0 6-2.7 6-6z"></path></svg>');}
+  </style>
+  <style>
+   .container {
+    padding-left: 2em;
+}
+table.fileList { 
+    text-align: left; 
+}
+.directory { 
+    font-weight: bold; 
+}
+td.file {
+    padding-left: 1em;
+}
+
+.folder-img {
+    
+    display: inline-block;        
+    min-width:1.7em;
+    min-height:1.7em;
+    background-size: contain;
+    margin-right: 0.3em;
+
+background-image: url("data:image/svg+xml;base64,PHN2ZyB2ZXJzaW9uPSIxLjEiIGlkPSJDYXBhXzEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHg9IjBweCIgeT0iMHB4IiB3aWR0aD0iMTUwcHgiCiAgICAgICAgIHZpZXdCb3g9IjAgMCA1OCA1OCIgc3R5bGU9ImVuYWJsZS1iYWNrZ3JvdW5kOm5ldyAwIDAgNTggNTg7IiB4bWw6c3BhY2U9InByZXNlcnZlIj4KPHBhdGggc3R5bGU9ImZpbGw6I0VGQ0U0QTsiIGQ9Ik00Ni4zMjQsNTIuNUgxLjU2NWMtMS4wMywwLTEuNzc5LTAuOTc4LTEuNTEtMS45NzNsMTAuMTY2LTI3Ljg3MQogICAgICAgIGMwLjE4NC0wLjY4MiwwLjgwMy0xLjE1NiwxLjUxLTEuMTU2SDU2LjQ5YzEuMDMsMCwxLjUxLDAuOTg0LDEuNTEsMS45NzNMNDcuODM0LDUxLjM0NEM0Ny42NSw1Mi4wMjYsNDcuMDMxLDUyLjUsNDYuMzI0LDUyLjV6Ii8+CjxnPgogICAgICAgIDxwYXRoIHN0eWxlPSJmaWxsOiNFQkJBMTY7IiBkPSJNNTAuMjY4LDEyLjVIMjVsLTUtN0gxLjczMkMwLjc3Niw1LjUsMCw2LjI3NSwwLDcuMjMyVjQ5Ljk2YzAuMDY5LDAuMDAyLDAuMTM4LDAuMDA2LDAuMjA1LDAuMDEKICAgICAgICAgICAgICAgIGwxMC4wMTUtMjcuMzE0YzAuMTg0LTAuNjgzLDAuODAzLTEuMTU2LDEuNTEtMS4xNTZINTJ2LTcuMjY4QzUyLDEzLjI3NSw1MS4yMjQsMTIuNSw1MC4yNjgsMTIuNXoiLz4KPC9nPgo8L3N2Zz4KCg==");
+
+}
+
+.file-img {
+    display: inline-block;        
+    min-width:1.7em;
+    min-height:1.7em;
+    background-size: contain;
+    margin-right: 0.3em;
+    
+background-image: url("data:image/svg+xml;base64,PHN2ZyB2ZXJzaW9uPSIxLjEiIGlkPSJDYXBhXzEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHg9IjBweCIgeT0iMHB4IiB3aWR0aD0iMTUwcHgiCiAgICAgICAgICAgIHZpZXdCb3g9IjAgMCA0MTAgNDEwIiBzdHlsZT0iZW5hYmxlLWJhY2tncm91bmQ6bmV3IDAgMCA0MTAgNDEwOyIgeG1sOnNwYWNlPSJwcmVzZXJ2ZSI+CjxnIGlkPSJYTUxJRF85OTVfIj4KICAgICAgICA8cG9seWdvbiBpZD0iWE1MSURfOTk2XyIgc3R5bGU9ImZpbGw6I0RFRERFMDsiIHBvaW50cz0iMTI1LDM0MCAxMjUsMzEwIDIwNSwzMTAgMjA1LDI4MCAxMjUsMjgwIDEyNSwyNTAgMjA1LDI1MCAyMDUsMjIwIDEyNSwyMjAgCiAgICAgICAgICAgICAgICAxMjUsMTkwIDIwNSwxOTAgMjA1LDE2MCAxMjUsMTYwIDEyNSwxMzAgMjA1LDEzMCAyMDUsMTAwIDIwNSw3MCAyMDUsMCAxMjUsMCAxMjUsNzAgNTYuNzA3LDcwIDU1LDcxLjc1IDU1LDQxMCAyMDUsNDEwIDIwNSwzNDAgCiAgICAgICAgICAgICAgICAiLz4KICAgICAgICA8cG9seWdvbiBpZD0iWE1MSURfOTk3XyIgc3R5bGU9ImZpbGw6I0NEQ0REMDsiIHBvaW50cz0iMjA1LDAgMjA1LDcwIDI4NSw3MCAyODUsMTAwIDIwNSwxMDAgMjA1LDEzMCAyODUsMTMwIDI4NSwxNjAgMjA1LDE2MCAKICAgICAgICAgICAgICAgIDIwNSwxOTAgMjg1LDE5MCAyODUsMjIwIDIwNSwyMjAgMjA1LDI1MCAyODUsMjUwIDI4NSwyODAgMjA1LDI4MCAyMDUsMzEwIDIwNSwzNDAgMjA1LDQxMCAzNTUsNDEwIDM1NSwwICAgIi8+CiAgICAgICAgPHJlY3QgaWQ9IlhNTElEXzk5OF8iIHg9IjIwNSIgeT0iNzAiIHN0eWxlPSJmaWxsOiNGRkZGRkY7IiB3aWR0aD0iODAiIGhlaWdodD0iMzAiLz4KICAgICAgICA8cmVjdCBpZD0iWE1MSURfOTk5XyIgeD0iMTI1IiB5PSIzMTAiIHN0eWxlPSJmaWxsOiNGRkZGRkY7IiB3aWR0aD0iODAiIGhlaWdodD0iMzAiLz4KICAgICAgICA8cG9seWdvbiBpZD0iWE1MSURfMTAwMF8iIHN0eWxlPSJmaWxsOiNGRkZGRkY7IiBwb2ludHM9IjEyNSwxNjAgMjA1LDE2MCAyODUsMTYwIDI4NSwxMzAgMjA1LDEzMCAxMjUsMTMwICAgICAgICAgIi8+CiAgICAgICAgPHBvbHlnb24gaWQ9IlhNTElEXzEwMDFfIiBzdHlsZT0iZmlsbDojRkZGRkZGOyIgcG9pbnRzPSIxMjUsMjIwIDIwNSwyMjAgMjg1LDIyMCAyODUsMTkwIDIwNSwxOTAgMTI1LDE5MCAgICAgICAgICIvPgogICAgICAgIDxwb2x5Z29uIGlkPSJYTUxJRF8xMDAyXyIgc3R5bGU9ImZpbGw6I0ZGRkZGRjsiIHBvaW50cz0iMTI1LDI4MCAyMDUsMjgwIDI4NSwyODAgMjg1LDI1MCAyMDUsMjUwIDEyNSwyNTAgICAgICAgICAiLz4KICAgICAgICA8cG9seWdvbiBpZD0iWE1MSURfMTAwM18iIHN0eWxlPSJmaWxsOiNBQ0FCQjE7IiBwb2ludHM9IjEyNSwwIDU1LDcwIDU2LjcwNyw3MCAxMjUsNzAgICAgIi8+CiAgICA8L2c+ICAgICAgICAKPC9zdmc+Cg==");
+}
+  </style>
+  <script>
+   /*
+	*	JSLists v0.4.5
+	*	© 2016 George Duff
+	*
+	* 	Release date: 01/06/2016
+	*	The MIT License (MIT)
+	*	Copyright (c) 2016 George Duff
+	*	Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+	*	The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+	*	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+*/
+
+//	TO DO LIST - Will get round to most of them at some point!
+//	Add folder & file icons dynamically from param
+//	Collapse All & Open All are ropey at best!
+//	Add a search function
+//	Make the margins user definable
+//	Add support for UL & OL
+
+var blackCircle = '&#9679; ';
+var openCircle = '&#9678; ';
+
+(function() {
+	"use strict";
+    function define_JSLists() {
+		var JSLists = {};
+
+		var JSLists_Error = function(error, alertType) {
+			console.log(error);
+		}
+		var getUl = function(){
+			return document.getElementsByTagName("UL");
+		};
+
+		var getOl = function(){
+			return document.getElementsByTagName("OL");
+		};
+
+		var getAllLists = function(){
+			var olLists = Array.prototype.slice.call(document.getElementsByTagName("UL")),
+				ulLists = Array.prototype.slice.call(document.getElementsByTagName("OL"))
+			var gLists = olLists.concat(ulLists);
+			return gLists;
+		}
+
+		JSLists.searchList = function(listId, searchTerm) {
+			var i, j, lilNodes, liItems = document.getElementsByTagName("LI");
+			for(i=0; i<liItems.length; i++) {
+                if(liItems[i].hasChildNodes()) {
+                    for(j=0; j<liItems[i].childNodes.length; j++) {
+                        if(liItems[i].childNodes[j].innerHTML == searchTerm) {
+							//?????
+                        }
+                    }
+                }
+			}
+		}
+
+		JSLists.collapseAll = function(listId) {
+			var i, ulLists = document.getElementsByTagName("UL");
+			for(i=0; i<ulLists.length; i++) {
+               if(ulLists[i].className == "jsl-collapsed") {
+                    console.log(ulLists[i].className + '\n' + '@');
+               }
+			};
+		};
+
+		JSLists.openAll = function(listId){
+			var i, olLists = Array.prototype.slice.call(document.getElementsByTagName("UL")),
+				ulLists = Array.prototype.slice.call(document.getElementsByTagName("OL"))
+			var gLists = olLists.concat(ulLists);
+
+			for(i=1; i<gLists.length; i++) {
+				gLists[i].setAttribute('class', 'jsl-open');
+			};
+		};
+
+		JSLists.padUnorderedLists = function(listId) {
+			var i, listItems = document.getElementById(listId).getElementsByTagName("UL");
+			for(i=0; i<listItems.length; i++) {
+				listItems[i].classList.add('jslist-ul');
+			}
+		};
+
+		JSLists.padOrderedLists = function(listId) {
+			var i, listItems = document.getElementById(listId).getElementsByTagName("UL");
+			for(i=0; i<listItems.length; i++) {
+				listItems[i].classList.add('jslist-ol');
+			}
+		};
+
+		JSLists.padLists = function(listId) {
+			var i, listItems = document.getElementById(listId).getElementsByTagName("LI");
+			for(i=0; i<listItems.length; i++) {
+				if(listItems[i].childNodes[0].className != "jsl-collapsed-arrow") {
+					listItems[i].classList.add('jslist-li');
+				}
+			}
+			for(i=1; i<listItems.length; i++) {
+				// console.log(listItems[i].childNodes.length);
+				if(listItems[i].classList = "jslist-li" && listItems[i].childNodes.length < 2) {
+					listItems[i].innerHTML = blackCircle + listItems[i].innerHTML
+				}
+			}
+			this.padUnorderedLists(listId);
+			this.padOrderedLists(listId);
+		};
+
+        JSLists.createTree = function(listId, bulletPoint) {
+			document.getElementById(listId).style.display = "none;"
+			var i, j, curElem, ulCount, olCount, listItems = document.getElementById(listId).getElementsByTagName('LI'); //this should be the main parent
+			for(i=0; i<listItems.length; i++) {
+				if(listItems[i].id.length > 0) {
+					curElem = document.getElementById(listItems[i].id);
+                    ulCount = document.getElementById(listItems[i].id).getElementsByTagName("UL");
+                    if(ulCount.length > 0){
+                        for(j=0; j<ulCount.length; j++) {
+                            if(ulCount[j].nodeName == "UL") {
+                                break;
+                            }
+                        }
+                        ulCount[j].setAttribute('class', 'jsl-collapsed');
+                        var tglDiv = document.createElement("div");
+                        tglDiv.setAttribute('class', 'jsl-list-closed');
+                        tglDiv.setAttribute("id", listItems[i].id + i +'_tgl');
+                        curElem.insertBefore(tglDiv, curElem.childNodes[0]);
+
+                        document.getElementById(listItems[i].id + i +'_tgl').addEventListener('click', function(e) {
+                            document.getElementById(e.target.id).classList.toggle('jsl-list-open');
+                            document.getElementById(e.target.id).parentElement.lastElementChild.classList.toggle('jsl-open');
+                            e.stopPropagation();
+                        },true);
+                    }
+                } else {
+					listItems[i].setAttribute("id", listId+"tmp"+i);
+					curElem = document.getElementById(listId+"tmp"+i);
+					ulCount = document.getElementById(listItems[i].id).getElementsByTagName("UL");
+
+					if(ulCount.length > 0) { //There is a nested UL in this LI element, now find the position of the UL
+						for(j=0; j<ulCount.length; j++) {
+							if(ulCount[j].nodeName == "UL") {
+								break; //Multiple UL's? //Set class collapseAll here
+							}
+						}
+						ulCount[j].setAttribute('class', 'jsl-collapsed');
+						var tglDiv = document.createElement("div");
+						tglDiv.setAttribute('class', 'jsl-list-closed');
+						tglDiv.setAttribute("id", listItems[i].id + i +'_tgl');
+						curElem.insertBefore(tglDiv, curElem.childNodes[0]);
+
+						document.getElementById(listItems[i].id + i +'_tgl').addEventListener('click', function(e){
+							document.getElementById(e.target.id).classList.toggle('jsl-list-open');
+							document.getElementById(e.target.id).parentElement.lastElementChild.classList.toggle('jsl-open');
+							e.stopPropagation();
+						},true);
+					}
+					listItems[i].removeAttribute("id");
+				}
+			}
+			setTimeout(function() {
+				document.getElementById(listId).style.display = "block;"
+			}, 50); // stops FOUC!
+			this.padLists(listId);
+		};
+
+		// JSLists.applyToList = function(listId, listType, applyIcons, applyTheme, themeNumber){
+		//Check the params here
+		// does the id exist?
+		JSLists.applyToList = function(listId, bulletPoint) {
+            this.createTree(listId, "UL");
+		};
+	return JSLists;
+    }
+
+	//define the JSLists library in the global namespace if it doesn't already exist
+	if(typeof(JSLists) === 'undefined') {
+		window.JSLists = define_JSLists();
+	}else{
+		console.log("JSLists already defined.");
+	}
+})();
+  </script>
+ </head>
+ <body>
+  <h1>
+   Scratch Projects
+  </h1>
+  <ul id="albero">
+   <li class="directory">
+    <ul>
+     <ul>
+      <li class="directory">
+       <div class="folder-img">
+       </div>
+       3a
+       <ul>
+        <ul>
+         <li class="directory">
+          <div class="folder-img">
+          </div>
+          3a/student1
+          <ul>
+           <li>
+            <table class="fileList">
+             <tr>
+              <td class="file">
+               <div class="file-img">
+               </div>
+               a.sb3
+              </td>
+              <td class="file">
+               <a href="https://turbowarp.org/embed.html?project_url=https://coderdojotrento.github.io/sb3-to-turbowarp/demo/3a/student1/a.sb3">
+                Vedi animazione
+               </a>
+              </td>
+              <td class="file">
+               <a href="https://turbowarp.org/editor?project_url=https://coderdojotrento.github.io/sb3-to-turbowarp/demo/3a/student1/a.sb3">
+                Vedi codice
+               </a>
+              </td>
+              <td class="file">
+               <a href="https://coderdojotrento.github.io/sb3-to-turbowarp/demo/3a/student1/a.sb3">
+                Scarica file
+               </a>
+              </td>
+             </tr>
+             <tr>
+              <td class="file">
+               <div class="file-img">
+               </div>
+               b.sb3
+              </td>
+              <td class="file">
+               <a href="https://turbowarp.org/embed.html?project_url=https://coderdojotrento.github.io/sb3-to-turbowarp/demo/3a/student1/b.sb3">
+                Vedi animazione
+               </a>
+              </td>
+              <td class="file">
+               <a href="https://turbowarp.org/editor?project_url=https://coderdojotrento.github.io/sb3-to-turbowarp/demo/3a/student1/b.sb3">
+                Vedi codice
+               </a>
+              </td>
+              <td class="file">
+               <a href="https://coderdojotrento.github.io/sb3-to-turbowarp/demo/3a/student1/b.sb3">
+                Scarica file
+               </a>
+              </td>
+             </tr>
+            </table>
+           </li>
+          </ul>
+         </li>
+        </ul>
+        <ul>
+         <li class="directory">
+          <div class="folder-img">
+          </div>
+          3a/student2
+          <ul>
+           <li>
+            <table class="fileList">
+             <tr>
+              <td class="file">
+               <div class="file-img">
+               </div>
+               c.sb3
+              </td>
+              <td class="file">
+               <a href="https://turbowarp.org/embed.html?project_url=https://coderdojotrento.github.io/sb3-to-turbowarp/demo/3a/student2/c.sb3">
+                Vedi animazione
+               </a>
+              </td>
+              <td class="file">
+               <a href="https://turbowarp.org/editor?project_url=https://coderdojotrento.github.io/sb3-to-turbowarp/demo/3a/student2/c.sb3">
+                Vedi codice
+               </a>
+              </td>
+              <td class="file">
+               <a href="https://coderdojotrento.github.io/sb3-to-turbowarp/demo/3a/student2/c.sb3">
+                Scarica file
+               </a>
+              </td>
+             </tr>
+             <tr>
+              <td class="file">
+               <div class="file-img">
+               </div>
+               d.sb3
+              </td>
+              <td class="file">
+               <a href="https://turbowarp.org/embed.html?project_url=https://coderdojotrento.github.io/sb3-to-turbowarp/demo/3a/student2/d.sb3">
+                Vedi animazione
+               </a>
+              </td>
+              <td class="file">
+               <a href="https://turbowarp.org/editor?project_url=https://coderdojotrento.github.io/sb3-to-turbowarp/demo/3a/student2/d.sb3">
+                Vedi codice
+               </a>
+              </td>
+              <td class="file">
+               <a href="https://coderdojotrento.github.io/sb3-to-turbowarp/demo/3a/student2/d.sb3">
+                Scarica file
+               </a>
+              </td>
+             </tr>
+            </table>
+           </li>
+          </ul>
+         </li>
+        </ul>
+       </ul>
+      </li>
+     </ul>
+     <ul>
+      <li class="directory">
+       <div class="folder-img">
+       </div>
+       3b
+       <ul>
+        <ul>
+         <li class="directory">
+          <div class="folder-img">
+          </div>
+          3b/student3
+          <ul>
+           <li>
+            <table class="fileList">
+             <tr>
+              <td class="file">
+               <div class="file-img">
+               </div>
+               a.sb3
+              </td>
+              <td class="file">
+               <a href="https://turbowarp.org/embed.html?project_url=https://coderdojotrento.github.io/sb3-to-turbowarp/demo/3b/student3/a.sb3">
+                Vedi animazione
+               </a>
+              </td>
+              <td class="file">
+               <a href="https://turbowarp.org/editor?project_url=https://coderdojotrento.github.io/sb3-to-turbowarp/demo/3b/student3/a.sb3">
+                Vedi codice
+               </a>
+              </td>
+              <td class="file">
+               <a href="https://coderdojotrento.github.io/sb3-to-turbowarp/demo/3b/student3/a.sb3">
+                Scarica file
+               </a>
+              </td>
+             </tr>
+             <tr>
+              <td class="file">
+               <div class="file-img">
+               </div>
+               e.sb3
+              </td>
+              <td class="file">
+               <a href="https://turbowarp.org/embed.html?project_url=https://coderdojotrento.github.io/sb3-to-turbowarp/demo/3b/student3/e.sb3">
+                Vedi animazione
+               </a>
+              </td>
+              <td class="file">
+               <a href="https://turbowarp.org/editor?project_url=https://coderdojotrento.github.io/sb3-to-turbowarp/demo/3b/student3/e.sb3">
+                Vedi codice
+               </a>
+              </td>
+              <td class="file">
+               <a href="https://coderdojotrento.github.io/sb3-to-turbowarp/demo/3b/student3/e.sb3">
+                Scarica file
+               </a>
+              </td>
+             </tr>
+            </table>
+           </li>
+          </ul>
+         </li>
+        </ul>
+        <ul>
+         <li class="directory">
+          <div class="folder-img">
+          </div>
+          3b/student4
+          <ul>
+           <li>
+            <table class="fileList">
+             <tr>
+              <td class="file">
+               <div class="file-img">
+               </div>
+               d.sb3
+              </td>
+              <td class="file">
+               <a href="https://turbowarp.org/embed.html?project_url=https://coderdojotrento.github.io/sb3-to-turbowarp/demo/3b/student4/d.sb3">
+                Vedi animazione
+               </a>
+              </td>
+              <td class="file">
+               <a href="https://turbowarp.org/editor?project_url=https://coderdojotrento.github.io/sb3-to-turbowarp/demo/3b/student4/d.sb3">
+                Vedi codice
+               </a>
+              </td>
+              <td class="file">
+               <a href="https://coderdojotrento.github.io/sb3-to-turbowarp/demo/3b/student4/d.sb3">
+                Scarica file
+               </a>
+              </td>
+             </tr>
+             <tr>
+              <td class="file">
+               <div class="file-img">
+               </div>
+               f.sb3
+              </td>
+              <td class="file">
+               <a href="https://turbowarp.org/embed.html?project_url=https://coderdojotrento.github.io/sb3-to-turbowarp/demo/3b/student4/f.sb3">
+                Vedi animazione
+               </a>
+              </td>
+              <td class="file">
+               <a href="https://turbowarp.org/editor?project_url=https://coderdojotrento.github.io/sb3-to-turbowarp/demo/3b/student4/f.sb3">
+                Vedi codice
+               </a>
+              </td>
+              <td class="file">
+               <a href="https://coderdojotrento.github.io/sb3-to-turbowarp/demo/3b/student4/f.sb3">
+                Scarica file
+               </a>
+              </td>
+             </tr>
+            </table>
+           </li>
+          </ul>
+         </li>
+        </ul>
+        <ul>
+         <li class="directory">
+          <div class="folder-img">
+          </div>
+          3b/student5
+          <ul>
+           <li>
+            <table class="fileList">
+             <tr>
+              <td class="file">
+               <div class="file-img">
+               </div>
+               d.sb3
+              </td>
+              <td class="file">
+               <a href="https://turbowarp.org/embed.html?project_url=https://coderdojotrento.github.io/sb3-to-turbowarp/demo/3b/student5/d.sb3">
+                Vedi animazione
+               </a>
+              </td>
+              <td class="file">
+               <a href="https://turbowarp.org/editor?project_url=https://coderdojotrento.github.io/sb3-to-turbowarp/demo/3b/student5/d.sb3">
+                Vedi codice
+               </a>
+              </td>
+              <td class="file">
+               <a href="https://coderdojotrento.github.io/sb3-to-turbowarp/demo/3b/student5/d.sb3">
+                Scarica file
+               </a>
+              </td>
+             </tr>
+             <tr>
+              <td class="file">
+               <div class="file-img">
+               </div>
+               f.sb3
+              </td>
+              <td class="file">
+               <a href="https://turbowarp.org/embed.html?project_url=https://coderdojotrento.github.io/sb3-to-turbowarp/demo/3b/student5/f.sb3">
+                Vedi animazione
+               </a>
+              </td>
+              <td class="file">
+               <a href="https://turbowarp.org/editor?project_url=https://coderdojotrento.github.io/sb3-to-turbowarp/demo/3b/student5/f.sb3">
+                Vedi codice
+               </a>
+              </td>
+              <td class="file">
+               <a href="https://coderdojotrento.github.io/sb3-to-turbowarp/demo/3b/student5/f.sb3">
+                Scarica file
+               </a>
+              </td>
+             </tr>
+             <tr>
+              <td class="file">
+               <div class="file-img">
+               </div>
+               g.sb3
+              </td>
+              <td class="file">
+               <a href="https://turbowarp.org/embed.html?project_url=https://coderdojotrento.github.io/sb3-to-turbowarp/demo/3b/student5/g.sb3">
+                Vedi animazione
+               </a>
+              </td>
+              <td class="file">
+               <a href="https://turbowarp.org/editor?project_url=https://coderdojotrento.github.io/sb3-to-turbowarp/demo/3b/student5/g.sb3">
+                Vedi codice
+               </a>
+              </td>
+              <td class="file">
+               <a href="https://coderdojotrento.github.io/sb3-to-turbowarp/demo/3b/student5/g.sb3">
+                Scarica file
+               </a>
+              </td>
+             </tr>
+            </table>
+           </li>
+          </ul>
+         </li>
+        </ul>
+       </ul>
+      </li>
+     </ul>
+     <ul>
+      <li class="directory">
+       <div class="folder-img">
+       </div>
+       4c
+       <ul>
+        <ul>
+         <li class="directory">
+          <div class="folder-img">
+          </div>
+          4c/student6
+          <ul>
+           <li>
+            <table class="fileList">
+             <tr>
+              <td class="file">
+               <div class="file-img">
+               </div>
+               a.sb3
+              </td>
+              <td class="file">
+               <a href="https://turbowarp.org/embed.html?project_url=https://coderdojotrento.github.io/sb3-to-turbowarp/demo/4c/student6/a.sb3">
+                Vedi animazione
+               </a>
+              </td>
+              <td class="file">
+               <a href="https://turbowarp.org/editor?project_url=https://coderdojotrento.github.io/sb3-to-turbowarp/demo/4c/student6/a.sb3">
+                Vedi codice
+               </a>
+              </td>
+              <td class="file">
+               <a href="https://coderdojotrento.github.io/sb3-to-turbowarp/demo/4c/student6/a.sb3">
+                Scarica file
+               </a>
+              </td>
+             </tr>
+             <tr>
+              <td class="file">
+               <div class="file-img">
+               </div>
+               e.sb3
+              </td>
+              <td class="file">
+               <a href="https://turbowarp.org/embed.html?project_url=https://coderdojotrento.github.io/sb3-to-turbowarp/demo/4c/student6/e.sb3">
+                Vedi animazione
+               </a>
+              </td>
+              <td class="file">
+               <a href="https://turbowarp.org/editor?project_url=https://coderdojotrento.github.io/sb3-to-turbowarp/demo/4c/student6/e.sb3">
+                Vedi codice
+               </a>
+              </td>
+              <td class="file">
+               <a href="https://coderdojotrento.github.io/sb3-to-turbowarp/demo/4c/student6/e.sb3">
+                Scarica file
+               </a>
+              </td>
+             </tr>
+            </table>
+           </li>
+          </ul>
+         </li>
+        </ul>
+        <ul>
+         <li class="directory">
+          <div class="folder-img">
+          </div>
+          4c/student7
+          <ul>
+           <li>
+            <table class="fileList">
+             <tr>
+              <td class="file">
+               <div class="file-img">
+               </div>
+               d.sb3
+              </td>
+              <td class="file">
+               <a href="https://turbowarp.org/embed.html?project_url=https://coderdojotrento.github.io/sb3-to-turbowarp/demo/4c/student7/d.sb3">
+                Vedi animazione
+               </a>
+              </td>
+              <td class="file">
+               <a href="https://turbowarp.org/editor?project_url=https://coderdojotrento.github.io/sb3-to-turbowarp/demo/4c/student7/d.sb3">
+                Vedi codice
+               </a>
+              </td>
+              <td class="file">
+               <a href="https://coderdojotrento.github.io/sb3-to-turbowarp/demo/4c/student7/d.sb3">
+                Scarica file
+               </a>
+              </td>
+             </tr>
+             <tr>
+              <td class="file">
+               <div class="file-img">
+               </div>
+               f.sb3
+              </td>
+              <td class="file">
+               <a href="https://turbowarp.org/embed.html?project_url=https://coderdojotrento.github.io/sb3-to-turbowarp/demo/4c/student7/f.sb3">
+                Vedi animazione
+               </a>
+              </td>
+              <td class="file">
+               <a href="https://turbowarp.org/editor?project_url=https://coderdojotrento.github.io/sb3-to-turbowarp/demo/4c/student7/f.sb3">
+                Vedi codice
+               </a>
+              </td>
+              <td class="file">
+               <a href="https://coderdojotrento.github.io/sb3-to-turbowarp/demo/4c/student7/f.sb3">
+                Scarica file
+               </a>
+              </td>
+             </tr>
+            </table>
+           </li>
+          </ul>
+         </li>
+        </ul>
+        <ul>
+         <li class="directory">
+          <div class="folder-img">
+          </div>
+          4c/student8
+          <ul>
+           <li>
+            <table class="fileList">
+             <tr>
+              <td class="file">
+               <div class="file-img">
+               </div>
+               d.sb3
+              </td>
+              <td class="file">
+               <a href="https://turbowarp.org/embed.html?project_url=https://coderdojotrento.github.io/sb3-to-turbowarp/demo/4c/student8/d.sb3">
+                Vedi animazione
+               </a>
+              </td>
+              <td class="file">
+               <a href="https://turbowarp.org/editor?project_url=https://coderdojotrento.github.io/sb3-to-turbowarp/demo/4c/student8/d.sb3">
+                Vedi codice
+               </a>
+              </td>
+              <td class="file">
+               <a href="https://coderdojotrento.github.io/sb3-to-turbowarp/demo/4c/student8/d.sb3">
+                Scarica file
+               </a>
+              </td>
+             </tr>
+             <tr>
+              <td class="file">
+               <div class="file-img">
+               </div>
+               f.sb3
+              </td>
+              <td class="file">
+               <a href="https://turbowarp.org/embed.html?project_url=https://coderdojotrento.github.io/sb3-to-turbowarp/demo/4c/student8/f.sb3">
+                Vedi animazione
+               </a>
+              </td>
+              <td class="file">
+               <a href="https://turbowarp.org/editor?project_url=https://coderdojotrento.github.io/sb3-to-turbowarp/demo/4c/student8/f.sb3">
+                Vedi codice
+               </a>
+              </td>
+              <td class="file">
+               <a href="https://coderdojotrento.github.io/sb3-to-turbowarp/demo/4c/student8/f.sb3">
+                Scarica file
+               </a>
+              </td>
+             </tr>
+             <tr>
+              <td class="file">
+               <div class="file-img">
+               </div>
+               g.sb3
+              </td>
+              <td class="file">
+               <a href="https://turbowarp.org/embed.html?project_url=https://coderdojotrento.github.io/sb3-to-turbowarp/demo/4c/student8/g.sb3">
+                Vedi animazione
+               </a>
+              </td>
+              <td class="file">
+               <a href="https://turbowarp.org/editor?project_url=https://coderdojotrento.github.io/sb3-to-turbowarp/demo/4c/student8/g.sb3">
+                Vedi codice
+               </a>
+              </td>
+              <td class="file">
+               <a href="https://coderdojotrento.github.io/sb3-to-turbowarp/demo/4c/student8/g.sb3">
+                Scarica file
+               </a>
+              </td>
+             </tr>
+            </table>
+           </li>
+          </ul>
+         </li>
+        </ul>
+       </ul>
+      </li>
+     </ul>
+    </ul>
+   </li>
+  </ul>
+  <script>
+   JSLists.createTree("albero");  
+
+document.getElementById("alberotmp00_tgl").style.display = 'none';
+document.getElementById("alberotmp00_tgl").classList.toggle('jsl-list-open');
+document.getElementById("alberotmp00_tgl").parentElement.lastElementChild.classList.toggle('jsl-open');
+  </script>
+ </body>
+</html>
