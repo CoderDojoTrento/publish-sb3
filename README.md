@@ -1,5 +1,5 @@
 
-# Sb3 to TurboWarp
+# Publish sb3 
 
 If you have Scratch .sb3 projects hosted on a custom server and want to publish them outside official Scratch website, this python script creates a single `index.html` page with browsable folders and links to easily run projects, view their code and download sb3 files.
 
