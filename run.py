@@ -89,21 +89,22 @@ def make_html_dirs(args):
     walk_tree(args, ret, args.root, 0)
     return ''.join(ret)
 
-def make_html_page(top):
-    preamble = '''
+def make_html_page(args):
+
+    preamble = f'''
     <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
     <html>
         <head>
-            <title>Progetti Scratch</title>            
+            <title>{args.title}</title>            
             <link rel="stylesheet" href="js-lists.css">
             <link rel="stylesheet" href="sb3-to-turbowarp.css">            
             <script src="js-lists.js"></script>            
         </head>
         <body>
-        <h1>Progetti Scratch</h1>\n'''
+        <h1>{args.title}</h1>\n'''
     
     return '\n'.join([preamble,
-                      make_html_dirs(top),
+                      make_html_dirs(args),
                       '''                            
                             <script src="sb3-to-turbowarp.js"></script>
                         </body>
@@ -115,12 +116,11 @@ if __name__ == '__main__':
 
     parser = argparse.ArgumentParser(
                     prog = 'Sb3 to TurboWarp',
-                    description = 'What the program does',
-                    epilog = 'Text at the bottom of help')
+                    description = 'Creates an index.html page with links to scratch .sb3 projects hosted on a server other than officai scratch site. Links will open in turbowarp.org scratch clone.')
 
     parser.add_argument('-d', '--debug', 
                         dest='debug',
-                        action='store_true')  # on/off flag
+                        action='store_true')  
     
     parser.add_argument('-r', '--root', 
                         dest='root',
@@ -129,7 +129,10 @@ if __name__ == '__main__':
     parser.add_argument('-s', '--server', 
                         dest='server_url',
                         default='')  
-        
+
+    parser.add_argument('-t', '--title', 
+                        dest='title',
+                        default='Scratch Projects')         
     
     args = parser.parse_args()    
     
