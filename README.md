@@ -1,13 +1,15 @@
 
 # Sb3 to TurboWarp
 
-Given a folder like `projects/`, creates inside a single `index.html` page with links to Scratch .sb3 projects hosted on a custom server other than official scratch site. Can be useful if you don't want students to create accounts on Scratch.
+If you have Scratch .sb3 projects hosted on a custom server and want to publish them outside official Scratch website, this python script creates a single `index.html` page with browsable folders and links to easily run projects, view their code and download sb3 files.
 
-Links will open in [turbowarp.org](https://turbowarp.org) scratch fork, as original scratch can't open links from URL. Turbowarp doesn't require nor allows creating accounts.
+Since original Scratch can't open links from URL, links will open in [turbowarp.org](https://turbowarp.org) scratch fork. 
+
+This tool can be useful if you don't want students to create accounts on Scratch, note also Turbowarp doesn't require (nor allows) creating accounts.
 
 
 ## Demo (English):
-
+https://coderdojotrento.github.io/sb3-to-turbowarp/demo-it/
 https://coderdojotrento.github.io/sb3-to-turbowarp/demo
 
 
@@ -15,7 +17,7 @@ https://coderdojotrento.github.io/sb3-to-turbowarp/demo
 
 https://coderdojotrento.github.io/sb3-to-turbowarp/demo-it
 
-## Usage
+## Example usage
 
 Reads all projects in root folder `demo` and creates `demo/index.html`, supposing the file will be hosted on `https://coderdojotrento.github.io/sb3-to-turbowarp/demo/` (REMEMBER trailing slash)
 
@@ -30,7 +32,8 @@ All needed js and css files are packaged in a single `index.html` file for deplo
 ## Requirements
 
 - Python version: >= 3.6
-- Dependencies: see [requirements.txt](requirements.txt)
+- Pyhton dependencies: see [requirements.txt](requirements.txt)
+- Javascript dependencies (already included): JSLists
 - Hosting server needs to allow [CORS calls](https://docs.turbowarp.org/url-parameters#project_url)
 
 
@@ -40,10 +43,6 @@ David Leoni  info@davidleoni.it
 
 CoderDojo Trento  coderdojotrento.it
 
-
-**Libraries:**
-
-- JSLists
 
 **Graphics:**
 
