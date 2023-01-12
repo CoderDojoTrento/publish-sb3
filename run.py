@@ -104,14 +104,8 @@ def make_html_page(top):
     
     return '\n'.join([preamble,
                       make_html_dirs(top),
-                      '''
-                            
-                            <script>                                    
-                                    JSLists.createTree("albero");  
-//document.getElementById("alberotmp00_tgl").classList.toggle('jsl-list-open');
-document.getElementById("alberotmp00_tgl").style.display = 'none';
-                            document.getElementById("alberotmp00_tgl").parentElement.lastElementChild.classList.toggle('jsl-open');                                    
-                            </script>                      
+                      '''                            
+                            <script src="sb3-to-turbowarp.js"></script>
                         </body>
                       </html>
                       '''])
@@ -139,8 +133,7 @@ if __name__ == '__main__':
     
     args = parser.parse_args()    
     
-    
-    args.root = 'projects'
+        
     res = make_html_page(args)
     
     with open(f'{args.root}/index.html', 'w', encoding='utf8') as write_f:
@@ -178,3 +171,4 @@ if __name__ == '__main__':
             processed_res = res
          
         write_f.write(processed_res)
+        print(f'Wrote {write_f.name}')
