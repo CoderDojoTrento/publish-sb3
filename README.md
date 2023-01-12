@@ -1,7 +1,7 @@
 
 # Sb3 to TurboWarp
 
-Given a folder like `projects/`, creates an index.html page with links to scratch .sb3 projects hosted on a custom server other than official scratch site. Can be useful if you don't want students to create accounts on Scratch
+Given a folder like `projects/`, creates inside a single `index.html` page with links to Scratch .sb3 projects hosted on a custom server other than official scratch site. Can be useful if you don't want students to create accounts on Scratch.
 
 Links will open in [turbowarp.org](https://turbowarp.org) scratch fork, as original scratch can't open links from URL. Turbowarp doesn't require nor allows creating accounts.
 
@@ -17,24 +17,21 @@ https://coderdojotrento.github.io/sb3-to-turbowarp/demo-it
 
 ## Usage
 
-Reads all projects in root folder `demo` and creates `demo/index.html`, supposing the file will be hosted on `https://coderdojotrento.github.io/sb3-to-turbowarp/demo`
+Reads all projects in root folder `demo` and creates `demo/index.html`, supposing the file will be hosted on `https://coderdojotrento.github.io/sb3-to-turbowarp/demo/` (REMEMBER trailing slash)
 
 ```bash
 python3 sb3_to_turbowarp.py -r demo  -s https://coderdojotrento.github.io/sb3-to-turbowarp/demo/ 
 ```
 
-
 ## Deployment
 
 All needed js and css files are packaged in a single `index.html` file for deployment convenience.
 
-
 ## Requirements
 
-Python version: >= 3.6
-
-See [requirements.txt](requirements.txt)
-
+- Python version: >= 3.6
+- Dependencies: see [requirements.txt](requirements.txt)
+- Hosting server needs to allow [CORS calls](https://docs.turbowarp.org/url-parameters#project_url)
 
 
 ## Credits:
