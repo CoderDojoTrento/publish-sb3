@@ -10,19 +10,19 @@ This tool can be useful if you don't want students to create accounts on Scratch
 
 ## Demo (English):
 
-https://coderdojotrento.github.io/sb3-to-turbowarp/demo
+https://coderdojotrento.github.io/publish-sb3/demo
 
 
 ## Demo (Italian):
 
-https://coderdojotrento.github.io/sb3-to-turbowarp/demo-it
+https://coderdojotrento.github.io/publish-sb3/demo-it
 
 ## Example usage
 
-Reads all projects in root folder `demo` and creates `demo/index.html`, supposing the file will be hosted on `https://coderdojotrento.github.io/sb3-to-turbowarp/demo/` (REMEMBER trailing slash)
+Reads all projects in root folder `demo` and creates `demo/index.html`, supposing the file will be hosted on `https://coderdojotrento.github.io/publish-sb3/demo/` (REMEMBER trailing slash)
 
 ```bash
-python3 sb3_to_turbowarp.py -r demo  -s https://coderdojotrento.github.io/sb3-to-turbowarp/demo/ 
+python3 publish_sb3.py -r demo  -s https://coderdojotrento.github.io/publish-sb3/demo/ 
 ```
 
 ## Deployment

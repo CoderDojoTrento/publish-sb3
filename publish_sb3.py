@@ -127,7 +127,7 @@ def make_html_page(args):
             <title>{escape(args.title)}</title>
             <meta charset="utf-8">
             <link rel="stylesheet" href="js-lists.css">
-            <link rel="stylesheet" href="sb3-to-turbowarp.css">            
+            <link rel="stylesheet" href="publish-sb3.css">            
             <script src="js-lists.js"></script>            
         </head>
         <body>
@@ -136,7 +136,7 @@ def make_html_page(args):
     return '\n'.join([preamble,
                       make_html_dirs(args),
                       '''                            
-                            <script src="sb3-to-turbowarp.js"></script>
+                            <script src="publish-sb3.js"></script>
                         </body>
                       </html>
                       '''])
