@@ -182,6 +182,8 @@ if __name__ == '__main__':
     
     with open(f'{args.root}/index.html', 'w', encoding='utf8') as write_f:
 
+        
+
         if not args.debug:
             print('packing...')
 
@@ -189,19 +191,19 @@ if __name__ == '__main__':
             links = list(soup.select("link"))
             for tag in links:
                 print('Reading link', tag['href'])
-                with open(tag['href'], 'r', encoding='utf8') as link_f:
-                    t = link_f.read()
-                    #print(t)
+                fullpath = os.path.join(os.path.dirname(__file__), tag['href'])
+                with open(fullpath, 'r', encoding='utf8') as link_f:
+                    t = link_f.read()                    
                     new_tag = soup.new_tag("style")
                     new_tag.string = t
                     tag.replace_with(new_tag)
             
-            scripts = list(soup.select('script["src"]'))
+            scripts = list(soup.find_all('script'))
             for tag in scripts:
                 print('Reading script', tag['src'])
-                with open(tag['src'], 'r', encoding='utf8') as link_f:
-                    t = link_f.read()
-                    #print(t)
+                fullpath = os.path.join(os.path.dirname(__file__), tag['src'])
+                with open(fullpath, 'r', encoding='utf8') as link_f:
+                    t = link_f.read()                    
                     new_tag = soup.new_tag("script")                    
                     new_tag.string = t
                     tag.replace_with(new_tag)

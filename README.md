@@ -34,7 +34,7 @@ All needed js and css files are packaged in a single `index.html` file for deplo
 - Python version: >= 3.6
 - Pyhton dependencies: see [requirements.txt](requirements.txt)
 - Javascript dependencies (already included): JSLists
-- Hosting server needs to allow [CORS calls](https://docs.turbowarp.org/url-parameters#project_url)
+- **Hosting server needs to allow [CORS calls](https://docs.turbowarp.org/url-parameters#project_url)**
 
 
 ## Credits:
