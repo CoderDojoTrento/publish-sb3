@@ -30,6 +30,11 @@ li {list-style: none; line-height: 1.6rem;}
 }
 .jsl-open {display: block;}
 .jsl-list-open {background-image: url('data:image/svg+xml;utf8,<svg aria-hidden="true" data-prefix="far" data-icon="minus-square" class="svg-inline--fa fa-minus-square fa-w-14" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path fill="currentColor" d="M108 284c-6.6 0-12-5.4-12-12v-32c0-6.6 5.4-12 12-12h232c6.6 0 12 5.4 12 12v32c0 6.6-5.4 12-12 12H108zM448 80v352c0 26.5-21.5 48-48 48H48c-26.5 0-48-21.5-48-48V80c0-26.5 21.5-48 48-48h352c26.5 0 48 21.5 48 48zm-48 346V86c0-3.3-2.7-6-6-6H54c-3.3 0-6 2.7-6 6v340c0 3.3 2.7 6 6 6h340c3.3 0 6-2.7 6-6z"></path></svg>');}
+
+.jsl-tree-label {
+    user-select: none;
+    
+}
   </style>
   <style>
    .container {
@@ -116,22 +121,22 @@ var openCircle = '&#9678; ';
 		JSLists.searchList = function(listId, searchTerm) {
 			var i, j, lilNodes, liItems = document.getElementsByTagName("LI");
 			for(i=0; i<liItems.length; i++) {
-                if(liItems[i].hasChildNodes()) {
-                    for(j=0; j<liItems[i].childNodes.length; j++) {
-                        if(liItems[i].childNodes[j].innerHTML == searchTerm) {
-							//?????
-                        }
-                    }
-                }
+			    if(liItems[i].hasChildNodes()) {
+				for(j=0; j<liItems[i].childNodes.length; j++) {
+				    if(liItems[i].childNodes[j].innerHTML == searchTerm) {
+								    //?????
+				    }
+				}
+			    }
 			}
 		}
 
 		JSLists.collapseAll = function(listId) {
 			var i, ulLists = document.getElementsByTagName("UL");
 			for(i=0; i<ulLists.length; i++) {
-               if(ulLists[i].className == "jsl-collapsed") {
-                    console.log(ulLists[i].className + '\n' + '@');
-               }
+			    if(ulLists[i].className == "jsl-collapsed") {
+				    console.log(ulLists[i].className + '\n' + '@');
+			    }
 			};
 		};
 
@@ -177,77 +182,118 @@ var openCircle = '&#9678; ';
 		};
 
         JSLists.createTree = function(listId, bulletPoint) {
-			document.getElementById(listId).style.display = "none;"
-			var i, j, curElem, ulCount, olCount, listItems = document.getElementById(listId).getElementsByTagName('LI'); //this should be the main parent
-			for(i=0; i<listItems.length; i++) {
-				if(listItems[i].id.length > 0) {
-					curElem = document.getElementById(listItems[i].id);
-                    ulCount = document.getElementById(listItems[i].id).getElementsByTagName("UL");
-                    if(ulCount.length > 0){
-                        for(j=0; j<ulCount.length; j++) {
-                            if(ulCount[j].nodeName == "UL") {
-                                break;
-                            }
-                        }
-                        ulCount[j].setAttribute('class', 'jsl-collapsed');
-                        var tglDiv = document.createElement("div");
-                        tglDiv.setAttribute('class', 'jsl-list-closed');
-                        tglDiv.setAttribute("id", listItems[i].id + i +'_tgl');
-                        curElem.insertBefore(tglDiv, curElem.childNodes[0]);
-
-                        document.getElementById(listItems[i].id + i +'_tgl').addEventListener('click', function(e) {
-                            document.getElementById(e.target.id).classList.toggle('jsl-list-open');
-                            document.getElementById(e.target.id).parentElement.lastElementChild.classList.toggle('jsl-open');
-                            e.stopPropagation();
-                        },true);
-                    }
-                } else {
-					listItems[i].setAttribute("id", listId+"tmp"+i);
-					curElem = document.getElementById(listId+"tmp"+i);
-					ulCount = document.getElementById(listItems[i].id).getElementsByTagName("UL");
-
-					if(ulCount.length > 0) { //There is a nested UL in this LI element, now find the position of the UL
-						for(j=0; j<ulCount.length; j++) {
-							if(ulCount[j].nodeName == "UL") {
-								break; //Multiple UL's? //Set class collapseAll here
-							}
-						}
-						ulCount[j].setAttribute('class', 'jsl-collapsed');
-						var tglDiv = document.createElement("div");
-						tglDiv.setAttribute('class', 'jsl-list-closed');
-						tglDiv.setAttribute("id", listItems[i].id + i +'_tgl');
-						curElem.insertBefore(tglDiv, curElem.childNodes[0]);
-
-						document.getElementById(listItems[i].id + i +'_tgl').addEventListener('click', function(e){
-							document.getElementById(e.target.id).classList.toggle('jsl-list-open');
-							document.getElementById(e.target.id).parentElement.lastElementChild.classList.toggle('jsl-open');
-							e.stopPropagation();
-						},true);
-					}
-					listItems[i].removeAttribute("id");
+		document.getElementById(listId).style.display = "none;"
+		var i, j, curElem, ulCount, olCount, listItems = document.getElementById(listId).getElementsByTagName('LI'); //this should be the main parent
+		
+		//i=1 otherwise the root might disappear on click
+		for(i=1; i<listItems.length; i++) {
+			if(listItems[i].id.length > 0) {
+			    curElem = document.getElementById(listItems[i].id);
+			    ulCount = document.getElementById(listItems[i].id).getElementsByTagName("UL");
+			    if(ulCount.length > 0){
+				for(j=0; j<ulCount.length; j++) {
+				    if(ulCount[j].nodeName == "UL") {
+					break;
+				    }
 				}
-			}
-			setTimeout(function() {
-				document.getElementById(listId).style.display = "block;"
-			}, 50); // stops FOUC!
-			this.padLists(listId);
-		};
+				ulCount[j].setAttribute('class', 'jsl-collapsed');
+				var tglDiv = document.createElement("div");
+				tglDiv.setAttribute('class', 'jsl-list-closed');
+				tglDiv.setAttribute("id", listItems[i].id + i +'_tgl');
+				curElem.insertBefore(tglDiv, curElem.childNodes[0]);
 
-		// JSLists.applyToList = function(listId, listType, applyIcons, applyTheme, themeNumber){
-		//Check the params here
-		// does the id exist?
-		JSLists.applyToList = function(listId, bulletPoint) {
-            this.createTree(listId, "UL");
-		};
+				let f = function(e) {
+				    console.log('f THEN');
+				    
+				    document.getElementById(e.target.id).classList.toggle('jsl-list-open');
+				    document.getElementById(e.target.id).parentElement.lastElementChild.classList.toggle('jsl-open');
+				    e.stopPropagation();
+				}
+				let el_tgl = document.getElementById(listItems[i].id + i +'_tgl')
+				let el_folder = el_tgl.nextSibling.nextSibling;
+				el.addEventListener('click', f,true);
+				el_folder.addEventListener('click', f,true);
+			    
+			    }
+			} else {
+			    
+			    listItems[i].setAttribute("id", listId+"tmp"+i);
+			    curElem = document.getElementById(listId+"tmp"+i);
+			    ulCount = document.getElementById(listItems[i].id).getElementsByTagName("UL");
+
+			    if(ulCount.length > 0) { //There is a nested UL in this LI element, now find the position of the UL
+				    for(j=0; j<ulCount.length; j++) {
+					    if(ulCount[j].nodeName == "UL") {
+						    break; //Multiple UL's? //Set class collapseAll here
+					    }
+				    }
+				    ulCount[j].setAttribute('class', 'jsl-collapsed');
+				    var tglDiv = document.createElement("div");
+				    tglDiv.setAttribute('class', 'jsl-list-closed');
+				    tglDiv.setAttribute("id", listItems[i].id + i +'_tgl');
+				    curElem.insertBefore(tglDiv, curElem.childNodes[0]);
+				    
+				    let el_tgl = document.getElementById(listItems[i].id + i +'_tgl')
+				    let el_folder = el_tgl.nextElementSibling;
+				    let el_span = el_tgl.nextElementSibling.nextElementSibling;
+				    
+				    let f = function(e){
+					    document.getElementById(e.target.id).classList.toggle('jsl-list-open');
+					    document.getElementById(e.target.id).parentElement.lastElementChild.classList.toggle('jsl-open');
+					    
+					    e.stopPropagation();
+				    }
+				    let g = function(e){
+					
+					    if (e.target.previousElementSibling && e.target.previousElementSibling.id){
+					    
+						document.getElementById(e.target.previousElementSibling.id).classList.toggle('jsl-list-open');
+						document.getElementById(e.target.previousElementSibling.id)
+					                           .parentElement.lastElementChild.classList.toggle('jsl-open');
+					    
+						e.stopPropagation();
+					    }
+					    
+				    }
+				    let h = function(e){
+					
+					    if (e.target.previousElementSibling && e.target.previousElementSibling.previousElementSibling && e.target.previousElementSibling.previousElementSibling.id){
+						
+						let head = document.getElementById(e.target.previousElementSibling.previousElementSibling.id);
+						head.classList.toggle('jsl-list-open');
+						head.parentElement.lastElementChild.classList.toggle('jsl-open');
+						e.stopPropagation();
+					    }
+					    
+				    }
+				    el_tgl.addEventListener('click', f,true);
+				    el_folder.addEventListener('click', g,true);
+				    el_span.addEventListener('click', h,true);
+			    }
+			    listItems[i].removeAttribute("id");
+			}
+		}
+		setTimeout(function() {
+			document.getElementById(listId).style.display = "block;"
+		}, 50); // stops FOUC!
+		this.padLists(listId);
+	};
+
+	// JSLists.applyToList = function(listId, listType, applyIcons, applyTheme, themeNumber){
+	//Check the params here
+	// does the id exist?
+	JSLists.applyToList = function(listId, bulletPoint) {
+		this.createTree(listId, "UL");
+	};
 	return JSLists;
     }
 
-	//define the JSLists library in the global namespace if it doesn't already exist
-	if(typeof(JSLists) === 'undefined') {
-		window.JSLists = define_JSLists();
-	}else{
-		console.log("JSLists already defined.");
-	}
+    //define the JSLists library in the global namespace if it doesn't already exist
+    if(typeof(JSLists) === 'undefined') {
+	    window.JSLists = define_JSLists();
+    } else {
+	console.log("JSLists already defined.");
+    }
 })();
   </script>
  </head>
@@ -262,13 +308,17 @@ var openCircle = '&#9678; ';
       <li class="directory">
        <div class="folder-img">
        </div>
-       3a
+       <span class="jsl-tree-label">
+        3a
+       </span>
        <ul>
         <ul>
          <li class="directory">
           <div class="folder-img">
           </div>
-          3a/student1
+          <span class="jsl-tree-label">
+           3a/student1
+          </span>
           <ul>
            <li>
             <table class="fileList">
@@ -279,12 +329,12 @@ var openCircle = '&#9678; ';
                a.sb3
               </td>
               <td class="file">
-               <a href="https://turbowarp.org/embed.html?project_url=https://coderdojotrento.github.io/publish-sb3/demo/3a/student1/a.sb3">
+               <a href="https://turbowarp.org/embed.html?project_url=https://coderdojotrento.github.io/publish-sb3/demo/3a/student1/a.sb3" target="_blank">
                 Visualize animation
                </a>
               </td>
               <td class="file">
-               <a href="https://turbowarp.org/editor?project_url=https://coderdojotrento.github.io/publish-sb3/demo/3a/student1/a.sb3">
+               <a href="https://turbowarp.org/editor?project_url=https://coderdojotrento.github.io/publish-sb3/demo/3a/student1/a.sb3" target="_blank">
                 Visualize code
                </a>
               </td>
@@ -301,12 +351,12 @@ var openCircle = '&#9678; ';
                b.sb3
               </td>
               <td class="file">
-               <a href="https://turbowarp.org/embed.html?project_url=https://coderdojotrento.github.io/publish-sb3/demo/3a/student1/b.sb3">
+               <a href="https://turbowarp.org/embed.html?project_url=https://coderdojotrento.github.io/publish-sb3/demo/3a/student1/b.sb3" target="_blank">
                 Visualize animation
                </a>
               </td>
               <td class="file">
-               <a href="https://turbowarp.org/editor?project_url=https://coderdojotrento.github.io/publish-sb3/demo/3a/student1/b.sb3">
+               <a href="https://turbowarp.org/editor?project_url=https://coderdojotrento.github.io/publish-sb3/demo/3a/student1/b.sb3" target="_blank">
                 Visualize code
                </a>
               </td>
@@ -325,7 +375,9 @@ var openCircle = '&#9678; ';
          <li class="directory">
           <div class="folder-img">
           </div>
-          3a/student2
+          <span class="jsl-tree-label">
+           3a/student2
+          </span>
           <ul>
            <li>
             <table class="fileList">
@@ -336,12 +388,12 @@ var openCircle = '&#9678; ';
                c.sb3
               </td>
               <td class="file">
-               <a href="https://turbowarp.org/embed.html?project_url=https://coderdojotrento.github.io/publish-sb3/demo/3a/student2/c.sb3">
+               <a href="https://turbowarp.org/embed.html?project_url=https://coderdojotrento.github.io/publish-sb3/demo/3a/student2/c.sb3" target="_blank">
                 Visualize animation
                </a>
               </td>
               <td class="file">
-               <a href="https://turbowarp.org/editor?project_url=https://coderdojotrento.github.io/publish-sb3/demo/3a/student2/c.sb3">
+               <a href="https://turbowarp.org/editor?project_url=https://coderdojotrento.github.io/publish-sb3/demo/3a/student2/c.sb3" target="_blank">
                 Visualize code
                </a>
               </td>
@@ -358,12 +410,12 @@ var openCircle = '&#9678; ';
                d.sb3
               </td>
               <td class="file">
-               <a href="https://turbowarp.org/embed.html?project_url=https://coderdojotrento.github.io/publish-sb3/demo/3a/student2/d.sb3">
+               <a href="https://turbowarp.org/embed.html?project_url=https://coderdojotrento.github.io/publish-sb3/demo/3a/student2/d.sb3" target="_blank">
                 Visualize animation
                </a>
               </td>
               <td class="file">
-               <a href="https://turbowarp.org/editor?project_url=https://coderdojotrento.github.io/publish-sb3/demo/3a/student2/d.sb3">
+               <a href="https://turbowarp.org/editor?project_url=https://coderdojotrento.github.io/publish-sb3/demo/3a/student2/d.sb3" target="_blank">
                 Visualize code
                </a>
               </td>
@@ -385,13 +437,17 @@ var openCircle = '&#9678; ';
       <li class="directory">
        <div class="folder-img">
        </div>
-       3b
+       <span class="jsl-tree-label">
+        3b
+       </span>
        <ul>
         <ul>
          <li class="directory">
           <div class="folder-img">
           </div>
-          3b/student3
+          <span class="jsl-tree-label">
+           3b/student3
+          </span>
           <ul>
            <li>
             <table class="fileList">
@@ -402,12 +458,12 @@ var openCircle = '&#9678; ';
                a.sb3
               </td>
               <td class="file">
-               <a href="https://turbowarp.org/embed.html?project_url=https://coderdojotrento.github.io/publish-sb3/demo/3b/student3/a.sb3">
+               <a href="https://turbowarp.org/embed.html?project_url=https://coderdojotrento.github.io/publish-sb3/demo/3b/student3/a.sb3" target="_blank">
                 Visualize animation
                </a>
               </td>
               <td class="file">
-               <a href="https://turbowarp.org/editor?project_url=https://coderdojotrento.github.io/publish-sb3/demo/3b/student3/a.sb3">
+               <a href="https://turbowarp.org/editor?project_url=https://coderdojotrento.github.io/publish-sb3/demo/3b/student3/a.sb3" target="_blank">
                 Visualize code
                </a>
               </td>
@@ -424,12 +480,12 @@ var openCircle = '&#9678; ';
                e.sb3
               </td>
               <td class="file">
-               <a href="https://turbowarp.org/embed.html?project_url=https://coderdojotrento.github.io/publish-sb3/demo/3b/student3/e.sb3">
+               <a href="https://turbowarp.org/embed.html?project_url=https://coderdojotrento.github.io/publish-sb3/demo/3b/student3/e.sb3" target="_blank">
                 Visualize animation
                </a>
               </td>
               <td class="file">
-               <a href="https://turbowarp.org/editor?project_url=https://coderdojotrento.github.io/publish-sb3/demo/3b/student3/e.sb3">
+               <a href="https://turbowarp.org/editor?project_url=https://coderdojotrento.github.io/publish-sb3/demo/3b/student3/e.sb3" target="_blank">
                 Visualize code
                </a>
               </td>
@@ -448,7 +504,9 @@ var openCircle = '&#9678; ';
          <li class="directory">
           <div class="folder-img">
           </div>
-          3b/student4
+          <span class="jsl-tree-label">
+           3b/student4
+          </span>
           <ul>
            <li>
             <table class="fileList">
@@ -459,12 +517,12 @@ var openCircle = '&#9678; ';
                d.sb3
               </td>
               <td class="file">
-               <a href="https://turbowarp.org/embed.html?project_url=https://coderdojotrento.github.io/publish-sb3/demo/3b/student4/d.sb3">
+               <a href="https://turbowarp.org/embed.html?project_url=https://coderdojotrento.github.io/publish-sb3/demo/3b/student4/d.sb3" target="_blank">
                 Visualize animation
                </a>
               </td>
               <td class="file">
-               <a href="https://turbowarp.org/editor?project_url=https://coderdojotrento.github.io/publish-sb3/demo/3b/student4/d.sb3">
+               <a href="https://turbowarp.org/editor?project_url=https://coderdojotrento.github.io/publish-sb3/demo/3b/student4/d.sb3" target="_blank">
                 Visualize code
                </a>
               </td>
@@ -481,12 +539,12 @@ var openCircle = '&#9678; ';
                f.sb3
               </td>
               <td class="file">
-               <a href="https://turbowarp.org/embed.html?project_url=https://coderdojotrento.github.io/publish-sb3/demo/3b/student4/f.sb3">
+               <a href="https://turbowarp.org/embed.html?project_url=https://coderdojotrento.github.io/publish-sb3/demo/3b/student4/f.sb3" target="_blank">
                 Visualize animation
                </a>
               </td>
               <td class="file">
-               <a href="https://turbowarp.org/editor?project_url=https://coderdojotrento.github.io/publish-sb3/demo/3b/student4/f.sb3">
+               <a href="https://turbowarp.org/editor?project_url=https://coderdojotrento.github.io/publish-sb3/demo/3b/student4/f.sb3" target="_blank">
                 Visualize code
                </a>
               </td>
@@ -505,7 +563,9 @@ var openCircle = '&#9678; ';
          <li class="directory">
           <div class="folder-img">
           </div>
-          3b/student5
+          <span class="jsl-tree-label">
+           3b/student5
+          </span>
           <ul>
            <li>
             <table class="fileList">
@@ -516,12 +576,12 @@ var openCircle = '&#9678; ';
                d.sb3
               </td>
               <td class="file">
-               <a href="https://turbowarp.org/embed.html?project_url=https://coderdojotrento.github.io/publish-sb3/demo/3b/student5/d.sb3">
+               <a href="https://turbowarp.org/embed.html?project_url=https://coderdojotrento.github.io/publish-sb3/demo/3b/student5/d.sb3" target="_blank">
                 Visualize animation
                </a>
               </td>
               <td class="file">
-               <a href="https://turbowarp.org/editor?project_url=https://coderdojotrento.github.io/publish-sb3/demo/3b/student5/d.sb3">
+               <a href="https://turbowarp.org/editor?project_url=https://coderdojotrento.github.io/publish-sb3/demo/3b/student5/d.sb3" target="_blank">
                 Visualize code
                </a>
               </td>
@@ -538,12 +598,12 @@ var openCircle = '&#9678; ';
                f.sb3
               </td>
               <td class="file">
-               <a href="https://turbowarp.org/embed.html?project_url=https://coderdojotrento.github.io/publish-sb3/demo/3b/student5/f.sb3">
+               <a href="https://turbowarp.org/embed.html?project_url=https://coderdojotrento.github.io/publish-sb3/demo/3b/student5/f.sb3" target="_blank">
                 Visualize animation
                </a>
               </td>
               <td class="file">
-               <a href="https://turbowarp.org/editor?project_url=https://coderdojotrento.github.io/publish-sb3/demo/3b/student5/f.sb3">
+               <a href="https://turbowarp.org/editor?project_url=https://coderdojotrento.github.io/publish-sb3/demo/3b/student5/f.sb3" target="_blank">
                 Visualize code
                </a>
               </td>
@@ -560,12 +620,12 @@ var openCircle = '&#9678; ';
                g.sb3
               </td>
               <td class="file">
-               <a href="https://turbowarp.org/embed.html?project_url=https://coderdojotrento.github.io/publish-sb3/demo/3b/student5/g.sb3">
+               <a href="https://turbowarp.org/embed.html?project_url=https://coderdojotrento.github.io/publish-sb3/demo/3b/student5/g.sb3" target="_blank">
                 Visualize animation
                </a>
               </td>
               <td class="file">
-               <a href="https://turbowarp.org/editor?project_url=https://coderdojotrento.github.io/publish-sb3/demo/3b/student5/g.sb3">
+               <a href="https://turbowarp.org/editor?project_url=https://coderdojotrento.github.io/publish-sb3/demo/3b/student5/g.sb3" target="_blank">
                 Visualize code
                </a>
               </td>
@@ -587,13 +647,17 @@ var openCircle = '&#9678; ';
       <li class="directory">
        <div class="folder-img">
        </div>
-       4c
+       <span class="jsl-tree-label">
+        4c
+       </span>
        <ul>
         <ul>
          <li class="directory">
           <div class="folder-img">
           </div>
-          4c/student6
+          <span class="jsl-tree-label">
+           4c/student6
+          </span>
           <ul>
            <li>
             <table class="fileList">
@@ -604,12 +668,12 @@ var openCircle = '&#9678; ';
                a.sb3
               </td>
               <td class="file">
-               <a href="https://turbowarp.org/embed.html?project_url=https://coderdojotrento.github.io/publish-sb3/demo/4c/student6/a.sb3">
+               <a href="https://turbowarp.org/embed.html?project_url=https://coderdojotrento.github.io/publish-sb3/demo/4c/student6/a.sb3" target="_blank">
                 Visualize animation
                </a>
               </td>
               <td class="file">
-               <a href="https://turbowarp.org/editor?project_url=https://coderdojotrento.github.io/publish-sb3/demo/4c/student6/a.sb3">
+               <a href="https://turbowarp.org/editor?project_url=https://coderdojotrento.github.io/publish-sb3/demo/4c/student6/a.sb3" target="_blank">
                 Visualize code
                </a>
               </td>
@@ -626,12 +690,12 @@ var openCircle = '&#9678; ';
                e.sb3
               </td>
               <td class="file">
-               <a href="https://turbowarp.org/embed.html?project_url=https://coderdojotrento.github.io/publish-sb3/demo/4c/student6/e.sb3">
+               <a href="https://turbowarp.org/embed.html?project_url=https://coderdojotrento.github.io/publish-sb3/demo/4c/student6/e.sb3" target="_blank">
                 Visualize animation
                </a>
               </td>
               <td class="file">
-               <a href="https://turbowarp.org/editor?project_url=https://coderdojotrento.github.io/publish-sb3/demo/4c/student6/e.sb3">
+               <a href="https://turbowarp.org/editor?project_url=https://coderdojotrento.github.io/publish-sb3/demo/4c/student6/e.sb3" target="_blank">
                 Visualize code
                </a>
               </td>
@@ -650,7 +714,9 @@ var openCircle = '&#9678; ';
          <li class="directory">
           <div class="folder-img">
           </div>
-          4c/student7
+          <span class="jsl-tree-label">
+           4c/student7
+          </span>
           <ul>
            <li>
             <table class="fileList">
@@ -661,12 +727,12 @@ var openCircle = '&#9678; ';
                d.sb3
               </td>
               <td class="file">
-               <a href="https://turbowarp.org/embed.html?project_url=https://coderdojotrento.github.io/publish-sb3/demo/4c/student7/d.sb3">
+               <a href="https://turbowarp.org/embed.html?project_url=https://coderdojotrento.github.io/publish-sb3/demo/4c/student7/d.sb3" target="_blank">
                 Visualize animation
                </a>
               </td>
               <td class="file">
-               <a href="https://turbowarp.org/editor?project_url=https://coderdojotrento.github.io/publish-sb3/demo/4c/student7/d.sb3">
+               <a href="https://turbowarp.org/editor?project_url=https://coderdojotrento.github.io/publish-sb3/demo/4c/student7/d.sb3" target="_blank">
                 Visualize code
                </a>
               </td>
@@ -683,12 +749,12 @@ var openCircle = '&#9678; ';
                f.sb3
               </td>
               <td class="file">
-               <a href="https://turbowarp.org/embed.html?project_url=https://coderdojotrento.github.io/publish-sb3/demo/4c/student7/f.sb3">
+               <a href="https://turbowarp.org/embed.html?project_url=https://coderdojotrento.github.io/publish-sb3/demo/4c/student7/f.sb3" target="_blank">
                 Visualize animation
                </a>
               </td>
               <td class="file">
-               <a href="https://turbowarp.org/editor?project_url=https://coderdojotrento.github.io/publish-sb3/demo/4c/student7/f.sb3">
+               <a href="https://turbowarp.org/editor?project_url=https://coderdojotrento.github.io/publish-sb3/demo/4c/student7/f.sb3" target="_blank">
                 Visualize code
                </a>
               </td>
@@ -707,7 +773,9 @@ var openCircle = '&#9678; ';
          <li class="directory">
           <div class="folder-img">
           </div>
-          4c/student8
+          <span class="jsl-tree-label">
+           4c/student8
+          </span>
           <ul>
            <li>
             <table class="fileList">
@@ -718,12 +786,12 @@ var openCircle = '&#9678; ';
                d.sb3
               </td>
               <td class="file">
-               <a href="https://turbowarp.org/embed.html?project_url=https://coderdojotrento.github.io/publish-sb3/demo/4c/student8/d.sb3">
+               <a href="https://turbowarp.org/embed.html?project_url=https://coderdojotrento.github.io/publish-sb3/demo/4c/student8/d.sb3" target="_blank">
                 Visualize animation
                </a>
               </td>
               <td class="file">
-               <a href="https://turbowarp.org/editor?project_url=https://coderdojotrento.github.io/publish-sb3/demo/4c/student8/d.sb3">
+               <a href="https://turbowarp.org/editor?project_url=https://coderdojotrento.github.io/publish-sb3/demo/4c/student8/d.sb3" target="_blank">
                 Visualize code
                </a>
               </td>
@@ -740,12 +808,12 @@ var openCircle = '&#9678; ';
                f.sb3
               </td>
               <td class="file">
-               <a href="https://turbowarp.org/embed.html?project_url=https://coderdojotrento.github.io/publish-sb3/demo/4c/student8/f.sb3">
+               <a href="https://turbowarp.org/embed.html?project_url=https://coderdojotrento.github.io/publish-sb3/demo/4c/student8/f.sb3" target="_blank">
                 Visualize animation
                </a>
               </td>
               <td class="file">
-               <a href="https://turbowarp.org/editor?project_url=https://coderdojotrento.github.io/publish-sb3/demo/4c/student8/f.sb3">
+               <a href="https://turbowarp.org/editor?project_url=https://coderdojotrento.github.io/publish-sb3/demo/4c/student8/f.sb3" target="_blank">
                 Visualize code
                </a>
               </td>
@@ -762,12 +830,12 @@ var openCircle = '&#9678; ';
                g.sb3
               </td>
               <td class="file">
-               <a href="https://turbowarp.org/embed.html?project_url=https://coderdojotrento.github.io/publish-sb3/demo/4c/student8/g.sb3">
+               <a href="https://turbowarp.org/embed.html?project_url=https://coderdojotrento.github.io/publish-sb3/demo/4c/student8/g.sb3" target="_blank">
                 Visualize animation
                </a>
               </td>
               <td class="file">
-               <a href="https://turbowarp.org/editor?project_url=https://coderdojotrento.github.io/publish-sb3/demo/4c/student8/g.sb3">
+               <a href="https://turbowarp.org/editor?project_url=https://coderdojotrento.github.io/publish-sb3/demo/4c/student8/g.sb3" target="_blank">
                 Visualize code
                </a>
               </td>
@@ -789,11 +857,7 @@ var openCircle = '&#9678; ';
    </li>
   </ul>
   <script>
-   JSLists.createTree("albero");  
-
-document.getElementById("alberotmp00_tgl").style.display = 'none';
-document.getElementById("alberotmp00_tgl").classList.toggle('jsl-list-open');
-document.getElementById("alberotmp00_tgl").parentElement.lastElementChild.classList.toggle('jsl-open');
+   JSLists.createTree("albero");
   </script>
  </body>
 </html>

@@ -46,22 +46,22 @@ var openCircle = '&#9678; ';
 		JSLists.searchList = function(listId, searchTerm) {
 			var i, j, lilNodes, liItems = document.getElementsByTagName("LI");
 			for(i=0; i<liItems.length; i++) {
-                if(liItems[i].hasChildNodes()) {
-                    for(j=0; j<liItems[i].childNodes.length; j++) {
-                        if(liItems[i].childNodes[j].innerHTML == searchTerm) {
-							//?????
-                        }
-                    }
-                }
+			    if(liItems[i].hasChildNodes()) {
+				for(j=0; j<liItems[i].childNodes.length; j++) {
+				    if(liItems[i].childNodes[j].innerHTML == searchTerm) {
+								    //?????
+				    }
+				}
+			    }
 			}
 		}
 
 		JSLists.collapseAll = function(listId) {
 			var i, ulLists = document.getElementsByTagName("UL");
 			for(i=0; i<ulLists.length; i++) {
-               if(ulLists[i].className == "jsl-collapsed") {
-                    console.log(ulLists[i].className + '\n' + '@');
-               }
+			    if(ulLists[i].className == "jsl-collapsed") {
+				    console.log(ulLists[i].className + '\n' + '@');
+			    }
 			};
 		};
 
@@ -107,75 +107,116 @@ var openCircle = '&#9678; ';
 		};
 
         JSLists.createTree = function(listId, bulletPoint) {
-			document.getElementById(listId).style.display = "none;"
-			var i, j, curElem, ulCount, olCount, listItems = document.getElementById(listId).getElementsByTagName('LI'); //this should be the main parent
-			for(i=0; i<listItems.length; i++) {
-				if(listItems[i].id.length > 0) {
-					curElem = document.getElementById(listItems[i].id);
-                    ulCount = document.getElementById(listItems[i].id).getElementsByTagName("UL");
-                    if(ulCount.length > 0){
-                        for(j=0; j<ulCount.length; j++) {
-                            if(ulCount[j].nodeName == "UL") {
-                                break;
-                            }
-                        }
-                        ulCount[j].setAttribute('class', 'jsl-collapsed');
-                        var tglDiv = document.createElement("div");
-                        tglDiv.setAttribute('class', 'jsl-list-closed');
-                        tglDiv.setAttribute("id", listItems[i].id + i +'_tgl');
-                        curElem.insertBefore(tglDiv, curElem.childNodes[0]);
-
-                        document.getElementById(listItems[i].id + i +'_tgl').addEventListener('click', function(e) {
-                            document.getElementById(e.target.id).classList.toggle('jsl-list-open');
-                            document.getElementById(e.target.id).parentElement.lastElementChild.classList.toggle('jsl-open');
-                            e.stopPropagation();
-                        },true);
-                    }
-                } else {
-					listItems[i].setAttribute("id", listId+"tmp"+i);
-					curElem = document.getElementById(listId+"tmp"+i);
-					ulCount = document.getElementById(listItems[i].id).getElementsByTagName("UL");
-
-					if(ulCount.length > 0) { //There is a nested UL in this LI element, now find the position of the UL
-						for(j=0; j<ulCount.length; j++) {
-							if(ulCount[j].nodeName == "UL") {
-								break; //Multiple UL's? //Set class collapseAll here
-							}
-						}
-						ulCount[j].setAttribute('class', 'jsl-collapsed');
-						var tglDiv = document.createElement("div");
-						tglDiv.setAttribute('class', 'jsl-list-closed');
-						tglDiv.setAttribute("id", listItems[i].id + i +'_tgl');
-						curElem.insertBefore(tglDiv, curElem.childNodes[0]);
-
-						document.getElementById(listItems[i].id + i +'_tgl').addEventListener('click', function(e){
-							document.getElementById(e.target.id).classList.toggle('jsl-list-open');
-							document.getElementById(e.target.id).parentElement.lastElementChild.classList.toggle('jsl-open');
-							e.stopPropagation();
-						},true);
-					}
-					listItems[i].removeAttribute("id");
+		document.getElementById(listId).style.display = "none;"
+		var i, j, curElem, ulCount, olCount, listItems = document.getElementById(listId).getElementsByTagName('LI'); //this should be the main parent
+		
+		//i=1 otherwise the root might disappear on click
+		for(i=1; i<listItems.length; i++) {
+			if(listItems[i].id.length > 0) {
+			    curElem = document.getElementById(listItems[i].id);
+			    ulCount = document.getElementById(listItems[i].id).getElementsByTagName("UL");
+			    if(ulCount.length > 0){
+				for(j=0; j<ulCount.length; j++) {
+				    if(ulCount[j].nodeName == "UL") {
+					break;
+				    }
 				}
-			}
-			setTimeout(function() {
-				document.getElementById(listId).style.display = "block;"
-			}, 50); // stops FOUC!
-			this.padLists(listId);
-		};
+				ulCount[j].setAttribute('class', 'jsl-collapsed');
+				var tglDiv = document.createElement("div");
+				tglDiv.setAttribute('class', 'jsl-list-closed');
+				tglDiv.setAttribute("id", listItems[i].id + i +'_tgl');
+				curElem.insertBefore(tglDiv, curElem.childNodes[0]);
 
-		// JSLists.applyToList = function(listId, listType, applyIcons, applyTheme, themeNumber){
-		//Check the params here
-		// does the id exist?
-		JSLists.applyToList = function(listId, bulletPoint) {
-            this.createTree(listId, "UL");
-		};
+				let f = function(e) {
+				    console.log('f THEN');
+				    
+				    document.getElementById(e.target.id).classList.toggle('jsl-list-open');
+				    document.getElementById(e.target.id).parentElement.lastElementChild.classList.toggle('jsl-open');
+				    e.stopPropagation();
+				}
+				let el_tgl = document.getElementById(listItems[i].id + i +'_tgl')
+				let el_folder = el_tgl.nextSibling.nextSibling;
+				el.addEventListener('click', f,true);
+				el_folder.addEventListener('click', f,true);
+			    
+			    }
+			} else {
+			    
+			    listItems[i].setAttribute("id", listId+"tmp"+i);
+			    curElem = document.getElementById(listId+"tmp"+i);
+			    ulCount = document.getElementById(listItems[i].id).getElementsByTagName("UL");
+
+			    if(ulCount.length > 0) { //There is a nested UL in this LI element, now find the position of the UL
+				    for(j=0; j<ulCount.length; j++) {
+					    if(ulCount[j].nodeName == "UL") {
+						    break; //Multiple UL's? //Set class collapseAll here
+					    }
+				    }
+				    ulCount[j].setAttribute('class', 'jsl-collapsed');
+				    var tglDiv = document.createElement("div");
+				    tglDiv.setAttribute('class', 'jsl-list-closed');
+				    tglDiv.setAttribute("id", listItems[i].id + i +'_tgl');
+				    curElem.insertBefore(tglDiv, curElem.childNodes[0]);
+				    
+				    let el_tgl = document.getElementById(listItems[i].id + i +'_tgl')
+				    let el_folder = el_tgl.nextElementSibling;
+				    let el_span = el_tgl.nextElementSibling.nextElementSibling;
+				    
+				    let f = function(e){
+					    document.getElementById(e.target.id).classList.toggle('jsl-list-open');
+					    document.getElementById(e.target.id).parentElement.lastElementChild.classList.toggle('jsl-open');
+					    
+					    e.stopPropagation();
+				    }
+				    let g = function(e){
+					
+					    if (e.target.previousElementSibling && e.target.previousElementSibling.id){
+					    
+						document.getElementById(e.target.previousElementSibling.id).classList.toggle('jsl-list-open');
+						document.getElementById(e.target.previousElementSibling.id)
+					                           .parentElement.lastElementChild.classList.toggle('jsl-open');
+					    
+						e.stopPropagation();
+					    }
+					    
+				    }
+				    let h = function(e){
+					
+					    if (e.target.previousElementSibling && e.target.previousElementSibling.previousElementSibling && e.target.previousElementSibling.previousElementSibling.id){
+						
+						let head = document.getElementById(e.target.previousElementSibling.previousElementSibling.id);
+						head.classList.toggle('jsl-list-open');
+						head.parentElement.lastElementChild.classList.toggle('jsl-open');
+						e.stopPropagation();
+					    }
+					    
+				    }
+				    el_tgl.addEventListener('click', f,true);
+				    el_folder.addEventListener('click', g,true);
+				    el_span.addEventListener('click', h,true);
+			    }
+			    listItems[i].removeAttribute("id");
+			}
+		}
+		setTimeout(function() {
+			document.getElementById(listId).style.display = "block;"
+		}, 50); // stops FOUC!
+		this.padLists(listId);
+	};
+
+	// JSLists.applyToList = function(listId, listType, applyIcons, applyTheme, themeNumber){
+	//Check the params here
+	// does the id exist?
+	JSLists.applyToList = function(listId, bulletPoint) {
+		this.createTree(listId, "UL");
+	};
 	return JSLists;
     }
 
-	//define the JSLists library in the global namespace if it doesn't already exist
-	if(typeof(JSLists) === 'undefined') {
-		window.JSLists = define_JSLists();
-	}else{
-		console.log("JSLists already defined.");
-	}
+    //define the JSLists library in the global namespace if it doesn't already exist
+    if(typeof(JSLists) === 'undefined') {
+	    window.JSLists = define_JSLists();
+    } else {
+	console.log("JSLists already defined.");
+    }
 })();

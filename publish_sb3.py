@@ -24,14 +24,13 @@ translations = {
 def walk_tree(args, ret, top, level):   
     
     unrooted_dir = top[len(args.root)+1:]    
-    space = '&emsp; ' * level    
     
     if args.root == top:
-        the_id = 'id=albero'
+        the_id = 'id="albero"'
         label = ''
     else:
         the_id = ''
-        label = f'<div class="folder-img"></div> {escape(unrooted_dir)}'
+        label = f'<div class="folder-img"></div> <span class="jsl-tree-label">{escape(unrooted_dir)}</span>'
     
     ret.append(f'''
                <ul {the_id}> 
@@ -54,7 +53,6 @@ def walk_tree(args, ret, top, level):
             continue
         
         unrooted_dir = top[len(args.root)+1:]
-        space = '&emsp; ' * level
         
         
         if stat.S_ISDIR(st.st_mode):
@@ -87,12 +85,12 @@ def walk_tree(args, ret, top, level):
                                 </td>
                                 
                                 <td class="file">
-                                    <a href="https://turbowarp.org/embed.html?project_url={prj_url}">
+                                    <a href="https://turbowarp.org/embed.html?project_url={prj_url}" target="_blank">
                                         {escape(translations[args.locale]['view-animation'])}
                                     </a>
                                 </td>
                                 <td class="file">
-                                    <a href="https://turbowarp.org/editor?project_url={prj_url}">
+                                    <a href="https://turbowarp.org/editor?project_url={prj_url}" target="_blank">
                                     {escape(translations[args.locale]['view-code'])}</a>
                                 </td>
                                 <td class="file">
